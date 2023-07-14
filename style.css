@@ -34,18 +34,40 @@ nav a{
     text-decoration: none;
     color: var(--text-color);
 }
-main{
+button{
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    margin-left: 10px;
+    font-size: 16px;
+    border-radius: var(--border-radius);
+    padding: calc(var(--padding)/2);
+}
+
+.main{
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+}
+.main{
     min-height: 80vh;
-    padding: var(--padding);
+    padding: 0 20px;
     max-width: 800px;
     margin: 0 auto;
 }
-main form{
+.userSelect{
     display: flex;
-    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
 }
-form input,
-.result div a{
+#results{ 
+    width: 100%;
+    margin-top: 10px;
+ 
+    padding: 10px;
+}
+input{
    border: none;
    font-size: 16px;
    font-weight: 500px;
@@ -54,7 +76,8 @@ form input,
    outline: none;
 
 }
-form input{
+
+input{
     flex-grow: 1;
 
 }
@@ -64,32 +87,33 @@ select{
     font-size: 16px;
     margin-left: 10px;
     outline: none;
+    padding: 10px;
     border-radius: var(--border-radius);
 }
-.result {
+#results {
     background-color: #fff;
     padding: var(--padding);
     border-radius: var(--border-radius);
     margin-top: 20px;
     box-shadow:  0px 0px 10px rgba(0,0,0,0.2);
+    
 }
-.result p{
+#results p{
     margin-top: 10px;
 }
-.result p[class="partOfSpeech"]{
-    font-style: italic;
-    color: #808080;
+#results input{
     margin-top: 10px;
 }
-.result div{
-    margin-top: 20px;
+.h1m{
+    text-align: center;
+    margin-top: 10px;
 }
-.result div a{
-    text-decoration: none;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-}
-.result li {
-    padding: calc(var(--padding)/6);
-    margin-left: 20px;
+@media screen and (max-width:450px) {
+    .userSelect{
+        flex-direction: column;
+    }
+    .userSelect button,select{
+        margin-top: 10px;
+    }
+   
 }

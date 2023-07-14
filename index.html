@@ -10,28 +10,35 @@
     <header>
         <nav>
             <div>
-                <h2><a href="#">Home</a></h2>
-            <h2><a href="learned_Words.html">learned</a></h2>
+                <h2><a href="index.html">Home</a></h2>
+                <h2><a href="memory.html">Memorized Words</a></h2>
             </div>
         </nav>
     </header>
-    <main>
-        <form action="">
-            <input type="text" class="searchWord" placeholder="Enter a word">
-            <select >
-                <option>Select</option>
+
+
+    <div class="main">
+        <div  class="userSelect">
+            <input type="text" id="search-input" placeholder="Enter a word">
+            <select id="search-option">
+                <option value="">Select</option>
                 <option value="all">All</option>
                 <option value="definition">Definition</option>
                 <option value="examples">Examples</option>
                 <option value="synonyms">Synonyms</option>
                 <option value="antonyms">Antonyms</option>
-
             </select>
-        </form>
-        <div class="result">
+    
+            <button id="search-btn">Search</button>
+        </div>
+        
+        <div id="results">
 
         </div>
-    </main>
+    </div>
+
+    
+  
     <script src="main.js"></script>
   
 </body>

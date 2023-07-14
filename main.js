@@ -1,70 +1,70 @@
-const searchWord = document.querySelector("input");
-const select = document.querySelector("select");
-const result = document.querySelector(".result");
+document.querySelector("#search-btn").addEventListener("click", async () =>{
+    let word = document.querySelector("#search-input");
+    let option = document.querySelector("#search-option").value;
+    let resultsDiv = document.querySelector("#results");
 
-const  getWordInfo =  async ()  => {
-    const response =  await fetch("words.json");
-    const data = await response.json();
+    let response =  await fetch("./words.json");
+    let words = await response.json();
 
+    const wordData = words.find( currentWord => currentWord.word === word.value);
 
-    select.addEventListener("change", (event) =>{
-        const option = event.target.value;
-        const word = searchWord.value;
+    if(!wordData){
+        resultsDiv.innerHTML =`<p>Word not found</p>`
+        word.value = "";
+        return;
+    }
 
-        const sword=word.toLowerCase();
+    let html = `<h1><strong>Word: </strong>${wordData.word}</h1>`;
+    if (option === 'definition' || option === 'all'){
+        html += `<p><strong>Definition:</strong> ${wordData.definition}</p>`
 
-        const returnWord = data.find((jsonData)=> jsonData.word === sword)
-        // console.log(returnWord);
-        if(sword === ""){
-            alert("Search a word?")
+    }
 
-        }
-        if(returnWord){
-            if(option === "definition"){
-                result.innerHTML = `
-                <h2><strong>Word: </strong>${returnWord.word}</h2>
-                <p> <strong>Definition: </strong> <br/> ${returnWord.definition}</p>
-               `;
+    if (option === 'examples' || option === 'all'){
+        html += `<p><strong>Examples: <br> </strong> ${wordData.examples.join('<br>')}</p>`
+
+    }
+
+    if (option === 'synonyms' || option === 'all'){
+        html += `<p><strong>Synonyms: <br> </strong> ${wordData.synonyms.join('<br>')}</p>`
+
+    }
+
+    if (option === 'antonyms' || option === 'all'){
+        html += `<p><strong>Antonyms: <br> </strong> ${wordData.antonyms.join('<br>')}</p>`
+
+    }
     
-            }else if(option === "examples"){
-                const example = returnWord.examples.join("<br>");
-                result.innerHTML = `
-                <h2><strong>Word: </strong>${returnWord.word}</h2>
-                <p><strong>Examples:<br/> </strong> ${example}</p>
-               `;
-            }else if(option === "synonyms"){
-                result.innerHTML = `
-                <h2><strong>Word: </strong>${returnWord.word}</h2>
-                <p><strong>Synonyms: </strong> <br/> ${returnWord.synonyms}</p>
-              `;
-            }
-            else if(option === "antonyms"){
-                result.innerHTML = `
-                <h2><strong>Word: </strong>${returnWord.word}</h2>
-                <p><strong>Antonyms: </strong> <br/> ${returnWord.antonyms}</p>
-            `;
-            } else if(option === "all"){
-                const example = returnWord.examples.join("<br>");
-                result.innerHTML = `
-                <h2><strong>Word: </strong>${returnWord.word}</h2>
-                <p> <strong>Definition: </strong> ${returnWord.definition}</p>
-                <p><strong>Examples: </strong> ${example}</p>
-                <p><strong>Synonyms: </strong> ${returnWord.synonyms}</p>
-                <p><strong>Antonyms: </strong> ${returnWord.antonyms}</p>
-                
-                `;
-            }
+    html += `<strong>Memorize:</strong> <input type = "checkbox" id = "memorize-${wordData.word}" >`;
+    
 
+    resultsDiv.innerHTML = html;
+    let memorizedWord = JSON.parse(localStorage.getItem('memorizedWords')) || [];
+    const memorizedIndex = memorizedWord.map(e => e.word).indexOf(wordData.word);
+    document.querySelector(`#memorize-${wordData.word}`).checked = memorizedIndex > -1;
 
+    document.querySelector(`#memorize-${wordData.word}`).addEventListener('change', (e) => {
+
+        let memorizedWords = JSON.parse(localStorage.getItem('memorizedWords')) || [];
+    
+        if (e.target.checked){
+            const index = memorizedWords.map(e => e.word).indexOf(wordData.word);
+            if(index === -1){
+            memorizedWords.push(wordData);
+            }
         }else{
-            alert("word not found");
+            /*
+            remove from the list:
+            1. check from the list
+            2. remove from the list
+             */
+            const index = memorizedWords.map(e => e.word).indexOf(wordData.word);
+            if(index > -1){
+                memorizedWords.splice(index, 1);
+            }
         }
 
+        localStorage.setItem("memorizedWords", JSON.stringify(memorizedWords));
+    });
 
-
-    })
-  
-
-}
-getWordInfo();
-
+});
